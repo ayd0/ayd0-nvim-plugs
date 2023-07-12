@@ -1,6 +1,5 @@
 local api = vim.api;
-local start;
-local next;
+local start, next;
 local w = 50;
 
 local swapWindows = function(selected, unselected, makeNarrow)
@@ -16,6 +15,7 @@ local swapWindows = function(selected, unselected, makeNarrow)
         end
 end
 
+-- open new split window
 vim.keymap.set("n", "<leader>r", function()
     start = api.nvim_get_current_win()
     vim.cmd("vs \"normal\" "..string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), ''):sub(1, -1))
@@ -23,12 +23,14 @@ vim.keymap.set("n", "<leader>r", function()
     print(start, ":", next)
 end)
 
+-- close last split window
 vim.keymap.set("n", "<leader>R", function()
     vim.cmd("close")
     start = 0;
     next = 0;
 end)
 
+-- set active window to start or next and lower unselected width
 vim.keymap.set("n", "<leader>t", function()
     if api.nvim_get_current_win() == start
         then swapWindows(next, start, true)
@@ -36,6 +38,7 @@ vim.keymap.set("n", "<leader>t", function()
         end
 end)
 
+-- set active window to start or next and reset widths to half
 vim.keymap.set("n", "<leader>T", function()
     if api.nvim_get_current_win() == start
         then swapWindows(next, start, false)
