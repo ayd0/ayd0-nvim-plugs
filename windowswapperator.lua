@@ -20,7 +20,6 @@ vim.keymap.set("n", "<leader>r", function()
     start = api.nvim_get_current_win()
     vim.cmd("vs \"normal\" "..string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), ''):sub(1, -1))
     next = api.nvim_get_current_win()
-    print(start, ":", next)
 end)
 
 -- close last split window
