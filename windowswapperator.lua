@@ -17,16 +17,21 @@ end
 
 -- open new split window
 vim.keymap.set("n", "<leader>r", function()
-    start = api.nvim_get_current_win()
-    vim.cmd("vs \"normal\" "..string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), ''):sub(1, -1))
-    next = api.nvim_get_current_win()
+    if start == nil
+        then
+            start = api.nvim_get_current_win()
+            vim.cmd("vs \"normal\" "..string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), ''):sub(1, -1))
+            next = api.nvim_get_current_win()
+        else
+            print("second window already open, press `<leader>R` to close window")
+        end
 end)
 
 -- close last split window
 vim.keymap.set("n", "<leader>R", function()
     vim.cmd("close")
-    start = 0;
-    next = 0;
+    start = nil;
+    next = nil;
 end)
 
 -- set active window to start or next and lower unselected width
@@ -37,10 +42,11 @@ vim.keymap.set("n", "<leader>t", function()
         end
 end)
 
--- set active window to start or next and reset widths to half
+-- sej active window to start or next and reset widths to half
 vim.keymap.set("n", "<leader>T", function()
     if api.nvim_get_current_win() == start
         then swapWindows(next, start, false)
         else swapWindows(start, next, false)
         end
 end)
+
